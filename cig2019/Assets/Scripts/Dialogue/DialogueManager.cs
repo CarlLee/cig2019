@@ -12,10 +12,12 @@ public class DialogueManager : MonoBehaviour
 
     public List<List<string>> Data;
     public TextChanger Patient;
+    public TextChanger Doctor;
     public TextChanger Select1;
     public TextChanger Select2;
     //public GameObject Gun;
     public int Now = 0;
+    public float WaitTime = 0.2f;
 
     private void Awake()
     {
@@ -39,9 +41,37 @@ public class DialogueManager : MonoBehaviour
     public void DialogueIn()
     {
         Patient.gameObject.SetActive(true);
+
+        StartCoroutine(DialogueLoop());
+    }
+
+    // 病人对话循环
+    private IEnumerator DialogueLoop()
+    {
+        string[] dias = Data[Now][1].Split("_".ToCharArray());
+        for (int i = 0 ;i<dias.Length; i++)
+        {
+            Patient.SetText(dias[i]);
+            yield return new WaitForSeconds(WaitTime);
+            while (true)
+            {               
+                if (Input.GetButtonUp("Fire1") || Input.GetKeyUp(KeyCode.Space))
+                {
+                    //Debug.Log("出循环");                   
+                    break;
+                }
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
+        SelectIn();
+        yield return 0;
+    }
+
+    public void SelectIn()
+    {
         if (Data[Now][1] != "")
         {
-            Patient.SetText(Data[Now][1]);
             if (Data[Now][2] != "")
             {
                 Select1.gameObject.SetActive(true);
@@ -51,10 +81,10 @@ public class DialogueManager : MonoBehaviour
             {
                 Select1.gameObject.SetActive(false);
             }
-            if (Data[Now][5] != "")
+            if (Data[Now][6] != "")
             {
                 Select2.gameObject.SetActive(true);
-                Select2.SetText(Data[Now][5]);
+                Select2.SetText(Data[Now][6]);
             }
             else
             {
@@ -62,36 +92,94 @@ public class DialogueManager : MonoBehaviour
             }
         }
     }
-    // 当点中1选项
+
+    // 当点中1选项 
     public void OnSelect1Clicked()
     {
-        if (Data[Now][3] != "")
+        if (Data[Now][3] != "") // 进入对话循环
         {
-            Patient.SetText(Data[Now][3]);
+            Doctor.gameObject.SetActive(true);
+            StartCoroutine(SelectLoop(1));
         }
         else
         {
-            Patient.gameObject.SetActive(false);
+            Reaction(Data[Now][5]);
         }
-        Reaction(Data[Now][4]);
+        // 关闭对话框
         Select1.gameObject.SetActive(false);
         Select2.gameObject.SetActive(false);
-
     }
     // 当点中2选项
     public void OnSelect2Clicked()
     {
-        if (Data[Now][6] != "")
+        if (Data[Now][7] != "")
         {
-            Patient.SetText(Data[Now][6]);
+            Doctor.gameObject.SetActive(true);
+            StartCoroutine(SelectLoop(2));
         }
         else
         {
-            Patient.gameObject.SetActive(false);
+            Reaction(Data[Now][9]);
         }
-        Reaction(Data[Now][7]);
+
         Select1.gameObject.SetActive(false);
         Select2.gameObject.SetActive(false);
+    }
+    // 医生反应循环
+    private IEnumerator SelectLoop(int selectNumber)
+    {
+        Doctor.gameObject.SetActive(true);
+
+        string[] dias = Data[Now][selectNumber * 4 - 1].Split("_".ToCharArray());
+
+        for (int i = 0; i < dias.Length; i++)
+        {
+            Doctor.SetText(dias[i]);
+            yield return new WaitForSeconds(WaitTime);
+            while (true)
+            {
+                if (Input.GetButtonUp("Fire1") || Input.GetKeyUp(KeyCode.Space))
+                {
+                   // Debug.Log("出循环");
+                    break;
+                }
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
+        StartCoroutine(ResponceLoop(selectNumber));
+        yield return 0;
+    }
+    // 病人回复循环
+    private IEnumerator ResponceLoop(int selectNumber)
+    {
+        string[] dias = Data[Now][selectNumber * 4].Split("_".ToCharArray());
+
+        for (int i = 0; i < dias.Length; i++)
+        {
+            Patient.SetText(dias[i]);
+            yield return new WaitForSeconds(WaitTime);
+            while (true)
+            {
+                if (Input.GetButtonUp("Fire1") || Input.GetKeyUp(KeyCode.Space))
+                {
+                    //Debug.Log("出循环");
+                    break;
+                }
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
+        Reaction(Data[Now][selectNumber * 4 + 1]);
+        Doctor.gameObject.SetActive(false);
+
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        yield return new WaitForSeconds(WaitTime);
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+
+        DialogueIn(); // 在这里达成循环
+
+        yield return 0;
     }
 
     // 发生行为

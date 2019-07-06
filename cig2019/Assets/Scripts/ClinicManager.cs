@@ -29,7 +29,7 @@ public class ClinicManager : MonoBehaviour
         RefleshRent(int.Parse(Data[Day][1]));
         RefleshDay(Day);
         MaxDay = Data.Count;
-        Debug.Log(MaxDay);
+        Debug.Log("MaxDay: " + MaxDay);
         DialogueSys.SetActive(true);
         DialogueManager.instance.StartDialogue((Day+1).ToString() + ".xlsx");
     }
