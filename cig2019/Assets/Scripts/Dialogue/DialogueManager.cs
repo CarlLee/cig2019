@@ -29,6 +29,7 @@ public class DialogueManager : MonoBehaviour
         Now = 0;
         ReadData(fileName);
         DialogueIn();
+        Debug.LogWarning("!!");
     }
 
     // 传入Xlsx文件夹下的文件名，读取一整场对话
@@ -41,7 +42,7 @@ public class DialogueManager : MonoBehaviour
     public void DialogueIn()
     {
         Patient.gameObject.SetActive(true);
-
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
         StartCoroutine(DialogueLoop());
     }
 
