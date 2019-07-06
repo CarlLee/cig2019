@@ -9,9 +9,9 @@ using OfficeOpenXml;
 public class DialogueManager : MonoBehaviour
 {
     public List<List<string>> Data;
-    public DialogueReader Patient;
-    public DialogueSelect Select1;
-    public DialogueSelect Select2;
+    public TextChanger Patient;
+    public TextChanger Select1;
+    public TextChanger Select2;
     public GameObject Gun;
     public int Now = 0;
 
@@ -52,35 +52,40 @@ public class DialogueManager : MonoBehaviour
                 Select2.gameObject.SetActive(false);
             }
         }
-        if(!Select1.gameObject.activeSelf && !Select2.gameObject.activeSelf)
-        {
-            Gun.SetActive(true);
-        }
     }
-
-    // 收到回复的行为
-    public void Responce(int number)
+    // 当点中1选项
+    public void OnSelect1Clicked()
     {
-        if(number == 1)
+        if (Data[Now][3] != "")
         {
             Patient.SetText(Data[Now][3]);
-            Reaction(Data[Now][4]);
-        }
-        else if(number == 2)
-        {
-            Patient.SetText(Data[Now][6]);
-            Reaction(Data[Now][7]);
         }
         else
         {
-            Debug.LogWarning("Number设置错误！");
+            Patient.gameObject.SetActive(false);
         }
-        Now += 1;
-        // 说下一句话
-        Invoke("DialogueIn", 2);
+        Reaction(Data[Now][4]);
+        Select1.gameObject.SetActive(false);
+        Select2.gameObject.SetActive(false);
+
+    }
+    // 当点中2选项
+    public void OnSelect2Clicked()
+    {
+        if (Data[Now][6] != "")
+        {
+            Patient.SetText(Data[Now][6]);
+        }
+        else
+        {
+            Patient.gameObject.SetActive(false);
+        }
+        Reaction(Data[Now][7]);
+        Select1.gameObject.SetActive(false);
+        Select2.gameObject.SetActive(false);
     }
 
-    // 定义每种行为的方法
+    // 发生行为
     private void Reaction(string act)
     {
         switch (act)
@@ -91,14 +96,20 @@ public class DialogueManager : MonoBehaviour
             case "bbb":
                 Debug.Log("做了bbb");
                 break;
+            case "结束":
+                EndADay();
+                return;
             default:
-                Debug.Log(act);
+                Debug.Log(act+"   在这里调用变形方法");
                 break;
         }
+        Now += 1;
+        // 说下一句话
+        Invoke("DialogueIn", 2);
     }
 
     public void EndADay()
     {
-        Debug.Log("忙碌的一天结束了");
+        Debug.Log("忙碌的一天结束了   在这里调用每日结算");
     }
 }
