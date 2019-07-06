@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 /*
@@ -9,51 +10,87 @@ using UnityEngine;
  * 0  1  2  3
  */
 
+[System.Serializable]
 public struct TriBlock
 {
-    private int mask;
-
-    public int Mask
-    {
-        get
-        {
-            return mask;
-        }
-
-        set
-        {
-            mask = value;
-        }
-    }
+    public uint mask;
 
     public TriBlock AddBlock(int offsetX, int offsetY, TriBlock block)
     {
         TriBlock result = new TriBlock();
-        result.Mask = this.mask;
+        result.mask = this.mask;
 
         TriBlock shifted = block.Shift(offsetX, offsetY);
-        result.Mask |= shifted.Mask;
+        result.mask |= shifted.mask;
         return result;
     }
 
     public TriBlock Shift(int offsetX, int offsetY)
     {
         TriBlock result = new TriBlock();
-        result.Mask = this.mask;
+        bool left = offsetX < 0;
+        bool down = offsetY < 0;
+        offsetX = System.Math.Abs(offsetX) * 2;
+        offsetY = System.Math.Abs(offsetY);
+        result.mask = this.mask;
+
+        if(offsetY >= 4)
+        {
+            result.mask = 0;
+            return result;
+        }
+
         // Y offset
-        result.Mask = result.Mask >> (offsetY * 8);
+        if (down)
+        {
+            result.mask = result.mask << (offsetY * 8);
+        }
+        else
+        {
+            result.mask = result.mask >> (offsetY * 8);
+        }
 
         // X offset
-        int row0 = result.Mask & 255;
-        row0 = row0 >> offsetX;
-        int row1 = result.Mask >> 8 & 255;
-        row1 = row1 >> offsetX;
-        int row2 = result.Mask >> 16 & 255;
-        row2 = row2 >> offsetX;
-        int row3 = result.Mask >> 24 & 255;
-        row3 = row3 >> offsetX;
+        uint row0 = result.mask & 255;
+        uint row1 = (result.mask >> 8) & 255;
+        uint row2 = (result.mask >> 16) & 255;
+        uint row3 = (result.mask >> 24) & 255;
+        if (left)
+        {
+            row0 = (row0 << offsetX) & 255;
+            row1 = (row1 << offsetX) & 255;
+            row2 = (row2 << offsetX) & 255;
+            row3 = (row3 << offsetX) & 255;
+        }
+        else
+        {
+            row0 = row0 >> offsetX;
+            row1 = row1 >> offsetX;
+            row2 = row2 >> offsetX;
+            row3 = row3 >> offsetX;
+        }
 
-        result.Mask = row0 | (row1 << 8) | (row2 << 16) | (row3 << 24);
+        result.mask = row0 | (row1 << 8) | (row2 << 16) | (row3 << 24);
         return result;
+    }
+
+    public bool CanFit(TriBlock block)
+    {
+        var inverted = ~this.mask;
+        return (inverted | block.mask) == inverted;
+    }
+
+    public override string ToString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.Append(System.Convert.ToString(this.mask >> 24 & 255, 2).PadLeft(8, '0'));
+        sb.Append("\n");
+        sb.Append(System.Convert.ToString(this.mask >> 16 & 255, 2).PadLeft(8, '0'));
+        sb.Append("\n");
+        sb.Append(System.Convert.ToString(this.mask >> 8 & 255, 2).PadLeft(8, '0'));
+        sb.Append("\n");
+        sb.Append(System.Convert.ToString(this.mask & 255, 2).PadLeft(8, '0'));
+        sb.Append("\n");
+        return sb.ToString();
     }
 }
