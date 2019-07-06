@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 483030949}
   - component: {fileID: 483030948}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,12 +152,9 @@ MonoBehaviour:
   cellPrefab: {fileID: 2783327555315618333, guid: ace13a70475b3994fac2ee98ef194885,
     type: 3}
   cellSize: 2.56
-  gridSize: {x: 2, y: 2}
+  gridSize: {x: 1, y: 1}
   blocks:
-  - mask: 3615613947
-  - mask: 3615613947
-  - mask: 3951151039
-  - mask: 3951151039
+  - mask: 4291027967
 --- !u!4 &483030949
 Transform:
   m_ObjectHideFlags: 0
