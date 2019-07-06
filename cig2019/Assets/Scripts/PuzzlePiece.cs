@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Medicine : MonoBehaviour
+public class PuzzlePiece : MonoBehaviour
 {
     public GameObject cellPrefab;
     public float cellSize = 2.56f;
     public TriBlock shape;
+    public PuzzleBoard puzzleBoard;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +20,8 @@ public class Medicine : MonoBehaviour
         triGrid.cellSize = cellSize;
         grid.transform.SetParent(transform, false);
         grid.transform.localPosition = Vector3.zero;
-
-        gameObject.layer = LayerMask.NameToLayer("Medicine");
+        this.gameObject.layer = LayerMask.NameToLayer("PuzzlePiece");
+        
         var collider = gameObject.AddComponent<BoxCollider2D>();
         float blockSize = cellSize * 4f;
         var colliderSize = CoordsUtils.OrthoToSlope(new Vector2(blockSize, blockSize));

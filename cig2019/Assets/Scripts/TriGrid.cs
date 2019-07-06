@@ -45,7 +45,6 @@ public class TriGrid : MonoBehaviour
                 }
             }
         }
-        //transform.localPosition = new Vector2(-gridSize.x / 2f * blockSize, -gridSize.y / 2f * blockSize);
     }
 
     void Update()
@@ -83,13 +82,20 @@ public class TriGrid : MonoBehaviour
                 int blockOffsetY = offsetY - y * 4;
                 if(!block.CanFit(toFit.Shift(blockOffsetX, blockOffsetY)))
                 {
-                    Debug.Log(toFit);
-                    Debug.Log(toFit.Shift(blockOffsetX, blockOffsetY));
-                    Debug.Log("index: " + index + " offset: " + new Vector2Int(blockOffsetX, blockOffsetY));
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    public bool IsOutOfBound(int offsetX, int offsetY)
+    {
+        bool left = offsetX <= -4;
+        bool right = offsetX >= gridSize.x * 4;
+        bool top = offsetY >= gridSize.y * 4;
+        bool bottom = offsetY <= -4;
+
+        return left || right || top || right;
     }
 }
