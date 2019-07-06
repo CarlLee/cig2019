@@ -8,16 +8,24 @@ using OfficeOpenXml;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static DialogueManager instance;
+
     public List<List<string>> Data;
     public TextChanger Patient;
     public TextChanger Select1;
     public TextChanger Select2;
-    public GameObject Gun;
+    //public GameObject Gun;
     public int Now = 0;
 
-    private void Start()
+    private void Awake()
     {
-        ReadData("1.xlsx");
+        instance = this;
+    }
+
+    public void StartDialogue(string fileName)
+    {
+        Now = 0;
+        ReadData(fileName);
         DialogueIn();
     }
 
@@ -30,7 +38,8 @@ public class DialogueManager : MonoBehaviour
     // 进入Now指示的对话
     public void DialogueIn()
     {
-        if(Data[Now][1] != "")
+        Patient.gameObject.SetActive(true);
+        if (Data[Now][1] != "")
         {
             Patient.SetText(Data[Now][1]);
             if (Data[Now][2] != "")
@@ -105,11 +114,12 @@ public class DialogueManager : MonoBehaviour
         }
         Now += 1;
         // 说下一句话
-        Invoke("DialogueIn", 2);
+        Invoke("DialogueIn", 0);
     }
 
     public void EndADay()
     {
         Debug.Log("忙碌的一天结束了   在这里调用每日结算");
+        ClinicManager.instance.DayEnd();
     }
 }

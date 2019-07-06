@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ClinicManager : MonoBehaviour
 {
+    public static ClinicManager instance;
+
     public int MoneyHave = 0;
     public int Day = 0;
     public List<int> Medicines;
@@ -13,7 +15,7 @@ public class ClinicManager : MonoBehaviour
     public List<List<string>> Data;
     public ClearUP ClearUP;
 
-    public GameObject ToDayEndButtom;
+    public GameObject DialogueSys;
     public GameObject NextDayButtom;
     public GameObject MoneyNRentUI;
 
@@ -28,11 +30,18 @@ public class ClinicManager : MonoBehaviour
         RefleshDay(Day);
         MaxDay = Data.Count;
         Debug.Log(MaxDay);
+        DialogueSys.SetActive(true);
+        DialogueManager.instance.StartDialogue((Day+1).ToString() + ".xlsx");
     }
     // 传入Xlsx文件夹下的文件名，读取游戏配置数据
     public void ReadData(string fileName)
     {
         Data = LoadExcelData.instance.LoadData(fileName);
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
     // Start is called before the first frame update
     void Start()
@@ -50,16 +59,18 @@ public class ClinicManager : MonoBehaviour
         // 刷新每日数据
         RefleshDay(Day + 1);
 
+        DialogueSys.SetActive(true);
+        DialogueManager.instance.StartDialogue((Day + 1).ToString() + ".xlsx");
+
         NextDayButtom.SetActive(false);
         ClearUP.gameObject.SetActive(false);
         MoneyNRentUI.SetActive(true);
-        ToDayEndButtom.SetActive(true);
         RefleshRent(int.Parse(Data[Day][1]));
     }
 
     public void DayEnd()
     {
-        ToDayEndButtom.SetActive(false);
+        DialogueSys.SetActive(false);
         ClearUP.gameObject.SetActive(true);
         //NextDayButtom.SetActive(true);
         MoneyNRentUI.SetActive(false);

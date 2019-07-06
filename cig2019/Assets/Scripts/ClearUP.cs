@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class ClearUP : MonoBehaviour
 {
-    public ClinicManager ClinicManager;
     public Text RestMoney;
     public Text RestMoneyNumber;
     public Text Rent;
@@ -26,10 +25,10 @@ public class ClearUP : MonoBehaviour
         MoneyNumber.gameObject.SetActive(false);
 
 
-        RestMoneyNumber.text = ClinicManager.MoneyHave.ToString();
-        RentNumber.text = "- " + ClinicManager.Rent.ToString();
+        RestMoneyNumber.text = ClinicManager.instance.MoneyHave.ToString();
+        RentNumber.text = "- " + ClinicManager.instance.Rent.ToString();
         // TODO 计算各药物收入
-        MoneyNumber.text = (ClinicManager.MoneyHave - ClinicManager.Rent).ToString(); // TODO  将药物收入算进来
+        MoneyNumber.text = (ClinicManager.instance.MoneyHave - ClinicManager.instance.Rent).ToString(); // TODO  将药物收入算进来
 
         StartCoroutine(ShowBill());
     }
@@ -59,7 +58,7 @@ public class ClearUP : MonoBehaviour
         MoneyNumber.gameObject.SetActive(true);
         yield return new WaitForSeconds(WaitTime);
 
-        ClinicManager.NextDayButtom.SetActive(true);
+        ClinicManager.instance.NextDayButtom.SetActive(true);
         yield return 0;
     }
 }
