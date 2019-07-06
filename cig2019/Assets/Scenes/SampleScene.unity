@@ -216,6 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 519420031}
+  grid: {fileID: 483030948}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
