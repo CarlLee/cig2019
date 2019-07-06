@@ -56,10 +56,6 @@ public class LoadExcelData : MonoBehaviour
             {
                 // 获取表格中指定行指定列的数据 
                 value = result.Tables[0].Rows[i][j].ToString();
-                if (value == "")
-                {
-                    excelData[i - 1].Add("");
-                }
                 excelData[i - 1].Add(value);
             }
         }
