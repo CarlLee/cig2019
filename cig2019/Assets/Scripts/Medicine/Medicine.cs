@@ -11,6 +11,10 @@ public class Medicine : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         Data = LoadExcelData.instance.LoadData("Medicine.xlsx");
         Shape = LoadExcelData.instance.LoadData("Shape.xlsx");
     }
