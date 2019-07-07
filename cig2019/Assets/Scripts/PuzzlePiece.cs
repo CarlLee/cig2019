@@ -10,6 +10,8 @@ public class PuzzlePiece : MonoBehaviour
     public PuzzleBoard puzzleBoard;
     public int id;
     public bool canMove = false;
+    public uint[] variations = new uint[6];
+    int currentVariation = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +36,15 @@ public class PuzzlePiece : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown("Left"))
+        {
+            currentVariation--;
+        }
+        if(Input.GetKeyDown("Right"))
+        {
+            currentVariation++;
+        }
+        currentVariation %= variations.Length;
+        shape.mask = variations[currentVariation];
     }
 }
