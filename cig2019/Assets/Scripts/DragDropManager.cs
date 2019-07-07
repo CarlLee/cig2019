@@ -57,10 +57,11 @@ public class DragDropManager : MonoBehaviour
                 {
                     Vector2 relativePos = new Vector2(puzzlePiece.transform.position.x, puzzlePiece.transform.position.y) - new Vector2(grid.transform.position.x, grid.transform.position.y);
                     Vector2 orthoPos = CoordsUtils.SlopeToOrtho(relativePos) / grid.cellSize;
+                    Debug.Log("puzzle: " + puzzlePiece.transform.position + "; grid: " + grid.transform.position);
                     Vector2Int gridOffset = new Vector2Int(Mathf.RoundToInt(orthoPos.x), Mathf.RoundToInt(orthoPos.y));
                     bool canFit = grid.CanFit(gridOffset.x, gridOffset.y, puzzlePiece.shape);
                     bool isOutOfBound = grid.IsOutOfBound(gridOffset.x, gridOffset.y);
-                    Debug.Log("canFit: " + canFit + ", isOutOfBound: " + isOutOfBound);
+                    Debug.Log("canFit: " + canFit + ", isOutOfBound: " + isOutOfBound + " gridOffset: " + gridOffset);
                     if (canFit && !isOutOfBound)
                     {
                         puzzleBoard.Attach(gridOffset.x, gridOffset.y, puzzlePiece.shape);
