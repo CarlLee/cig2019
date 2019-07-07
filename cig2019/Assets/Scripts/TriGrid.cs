@@ -80,7 +80,6 @@ public class TriGrid : MonoBehaviour
                 TriBlock block = blocks[index];
                 int blockOffsetX = offsetX - x * 4;
                 int blockOffsetY = offsetY - y * 4;
-                Debug.Log("block: \n" + block + "toFit: \n" + toFit.Shift(blockOffsetX, blockOffsetY) + blockOffsetX + "," + blockOffsetY);
                 if(!block.CanFit(toFit.Shift(blockOffsetX, blockOffsetY)))
                 {
                     return false;

@@ -11,13 +11,15 @@ public class PuzzlePiece : MonoBehaviour
     public int id;
     public bool canMove = false;
     public uint[] variations = new uint[6];
+    public bool selected = false;
     int currentVariation = 0;
+    TriGrid triGrid;
     // Start is called before the first frame update
     void Start()
     {
         GameObject grid = new GameObject();
         grid.name = "grid";
-        var triGrid = grid.AddComponent<TriGrid>();
+        triGrid = grid.AddComponent<TriGrid>();
         triGrid.gridSize = new Vector2Int(1, 1);
         triGrid.blocks = new TriBlock[]{ shape };
         triGrid.cellPrefab = cellPrefab;
@@ -36,15 +38,20 @@ public class PuzzlePiece : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("Left"))
+        if(selected)
         {
-            currentVariation--;
+            if (Input.GetKeyDown("left"))
+            {
+                currentVariation--;
+            }
+            if (Input.GetKeyDown("right"))
+            {
+                currentVariation++;
+            }
+            currentVariation %= variations.Length;
+            Debug.Log("CurrentVariation: " + currentVariation);
+            shape.mask = variations[currentVariation];
+            triGrid.blocks[0].mask = shape.mask;
         }
-        if(Input.GetKeyDown("Right"))
-        {
-            currentVariation++;
-        }
-        currentVariation %= variations.Length;
-        shape.mask = variations[currentVariation];
     }
 }
