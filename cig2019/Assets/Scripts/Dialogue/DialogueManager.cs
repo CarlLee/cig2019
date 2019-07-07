@@ -41,9 +41,10 @@ public class DialogueManager : MonoBehaviour
     // 进入Now指示的对话
     public void DialogueIn()
     {
+        StopCoroutine("ResponceLoop");
         Patient.gameObject.SetActive(true);
         gameObject.transform.GetChild(0).gameObject.SetActive(true);
-        StartCoroutine(DialogueLoop());
+        StartCoroutine("DialogueLoop");
     }
 
     // 病人对话循环
@@ -57,7 +58,7 @@ public class DialogueManager : MonoBehaviour
             bool watchdog = true;
             while (watchdog)
             {               
-                if (Input.GetKeyUp(KeyCode.Space))
+                if (Input.GetKeyUp(KeyCode.DownArrow))
                 {
                     Debug.Log("出循环病人说话");
                     watchdog = false;
@@ -72,6 +73,7 @@ public class DialogueManager : MonoBehaviour
 
     public void SelectIn()
     {
+        StopCoroutine("DialogueLoop");
         if (Data[Now][1] != "")
         {
             if (Data[Now][2] != "")
@@ -98,13 +100,14 @@ public class DialogueManager : MonoBehaviour
     // 当点中1选项 
     public void OnSelect1Clicked()
     {
+        Debug.Log("选中选项1");
         // 关闭对话框
         Select1.gameObject.SetActive(false);
         Select2.gameObject.SetActive(false);
         if (Data[Now][3] != "") // 进入对话循环
         {
             Doctor.gameObject.SetActive(true);
-            StartCoroutine(SelectLoop(1));
+            StartCoroutine("SelectLoop",1);
         }
         else
         {
@@ -114,12 +117,13 @@ public class DialogueManager : MonoBehaviour
     // 当点中2选项
     public void OnSelect2Clicked()
     {
+        Debug.Log("选中选项2");
         Select1.gameObject.SetActive(false);
         Select2.gameObject.SetActive(false);
         if (Data[Now][7] != "")
         {
             Doctor.gameObject.SetActive(true);
-            StartCoroutine(SelectLoop(2));
+            StartCoroutine("SelectLoop",2);
         }
         else
         {
@@ -140,7 +144,7 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(WaitTime);
             while (true)
             {
-                if (Input.GetKeyUp(KeyCode.Space))
+                if (Input.GetKeyUp(KeyCode.DownArrow))
                 {
                     Debug.Log("出循环医生说话");
                     break;
@@ -149,12 +153,13 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        StartCoroutine(ResponceLoop(selectNumber));
+        StartCoroutine("ResponceLoop",selectNumber);
         yield return 0;
     }
     // 病人回复循环
     private IEnumerator ResponceLoop(int selectNumber)
     {
+        StopCoroutine("SelectLoop"); 
         string[] dias = Data[Now][selectNumber * 4].Split("_".ToCharArray());
 
         for (int i = 0; i < dias.Length; i++)
@@ -163,7 +168,7 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(WaitTime);
             while (true)
             {
-                if (Input.GetKeyUp(KeyCode.Space))
+                if (Input.GetKeyUp(KeyCode.DownArrow))
                 {
                     Debug.Log("出循环病人回复");
                     break;
@@ -177,7 +182,7 @@ public class DialogueManager : MonoBehaviour
 
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
         yield return new WaitForSeconds(WaitTime);
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        
 
         DialogueIn(); // 在这里达成循环
 
@@ -203,8 +208,6 @@ public class DialogueManager : MonoBehaviour
                 break;
         }
         Now += 1;
-        // 说下一句话
-        Invoke("DialogueIn", 0);
     }
 
     public void EndADay()
