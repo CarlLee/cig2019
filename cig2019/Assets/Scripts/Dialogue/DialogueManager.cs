@@ -129,6 +129,7 @@ public class DialogueManager : MonoBehaviour
     // 医生反应循环
     private IEnumerator SelectLoop(int selectNumber)
     {
+        //yield return new WaitForSeconds(WaitTime);
         Doctor.gameObject.SetActive(true);
 
         string[] dias = Data[Now][selectNumber * 4 - 1].Split("_".ToCharArray());

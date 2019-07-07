@@ -9,6 +9,8 @@ public class ClearUP : MonoBehaviour
     public Text RestMoneyNumber;
     public Text Rent;
     public Text RentNumber;
+    public Text Sold;
+    public List<Text> SoldMedicine;
     public Text Money;
     public Text MoneyNumber;
 
@@ -23,17 +25,48 @@ public class ClearUP : MonoBehaviour
         RentNumber.gameObject.SetActive(false);
         Money.gameObject.SetActive(false);
         MoneyNumber.gameObject.SetActive(false);
-
+        Sold.gameObject.SetActive(false);
+        for(int i = 0; i < SoldMedicine.Count; i++)
+        {
+            SoldMedicine[i].transform.parent.gameObject.SetActive(false);
+        }
 
         RestMoneyNumber.text = ClinicManager.instance.MoneyHave.ToString();
         RentNumber.text = "- " + ClinicManager.instance.Rent.ToString();
-        // TODO 计算各药物收入
-        MoneyNumber.text = (ClinicManager.instance.MoneyHave - ClinicManager.instance.Rent).ToString(); // TODO  将药物收入算进来
 
-        StartCoroutine(ShowBill());
+        int medicineIndex = 0;
+        int mediUI = 0;
+        int showMedicine = 0;
+
+        for(int i = mediUI; i < SoldMedicine.Count; i++)
+        {
+            for(int j = medicineIndex;j< ClinicManager.instance.MedicinesCost.Length; j++)
+            {
+                medicineIndex++;
+                if (ClinicManager.instance.MedicinesCost[j] > 0)
+                {
+                    SoldMedicine[i].text = "X " + ClinicManager.instance.MedicinesCost[j].ToString() + " = " + (int.Parse(Medicine.Instance.Data[j][4]) * ClinicManager.instance.MedicinesCost[j]).ToString();
+                    SoldMedicine[i].transform.parent.GetChild(0).GetComponent<Image>().sprite = Resources.Load(Medicine.Instance.Data[j][3]) as Sprite;
+                    showMedicine++;
+                    break;   
+                }
+            }
+        }
+
+        int mediSold = 0;// TODO 计算各药物收入
+        for(int i = 0; i<ClinicManager.instance.MedicinesCost.Length; i++)
+        {
+            mediSold += ClinicManager.instance.MedicinesCost[i] * int.Parse(Medicine.Instance.Data[i][4]);
+        }
+
+        int all = ClinicManager.instance.MoneyHave - ClinicManager.instance.Rent + mediSold;
+        MoneyNumber.text = all.ToString(); // TODO  将药物收入算进来
+        ClinicManager.instance.RefleshMoney(all);
+
+        StartCoroutine(ShowBill(showMedicine));
     }
 
-    private IEnumerator ShowBill()
+    private IEnumerator ShowBill(int show)
     {
         yield return new WaitForSeconds(WaitTime);
 
@@ -46,13 +79,17 @@ public class ClearUP : MonoBehaviour
         yield return new WaitForSeconds(WaitTime);
 
         // 售出药物的显示
-        if (false)
+        if (show > 0)
         {
-            for(int i = 0; ; i++)
+            Sold.gameObject.SetActive(true);
+            yield return new WaitForSeconds(WaitTime);
+            for (int i = 0;i< show; i++)
             {
+                SoldMedicine[i].transform.parent.gameObject.SetActive(true);
                 yield return new WaitForSeconds(WaitTime);
             }
         }
+
 
         Money.gameObject.SetActive(true);
         MoneyNumber.gameObject.SetActive(true);
