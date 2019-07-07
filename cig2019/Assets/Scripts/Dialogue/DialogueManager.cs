@@ -54,12 +54,13 @@ public class DialogueManager : MonoBehaviour
         {
             Patient.SetText(dias[i]);
             yield return new WaitForSeconds(WaitTime);
-            while (true)
+            bool watchdog = true;
+            while (watchdog)
             {               
-                if (Input.GetButtonUp("Fire1") || Input.GetKeyUp(KeyCode.Space))
+                if (Input.GetKeyUp(KeyCode.Space))
                 {
-                    //Debug.Log("出循环");                   
-                    break;
+                    Debug.Log("出循环病人说话");
+                    watchdog = false;
                 }
                 yield return new WaitForFixedUpdate();
             }
@@ -139,9 +140,9 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(WaitTime);
             while (true)
             {
-                if (Input.GetButtonUp("Fire1") || Input.GetKeyUp(KeyCode.Space))
+                if (Input.GetKeyUp(KeyCode.Space))
                 {
-                   // Debug.Log("出循环");
+                    Debug.Log("出循环医生说话");
                     break;
                 }
                 yield return new WaitForFixedUpdate();
@@ -162,9 +163,9 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(WaitTime);
             while (true)
             {
-                if (Input.GetButtonUp("Fire1") || Input.GetKeyUp(KeyCode.Space))
+                if (Input.GetKeyUp(KeyCode.Space))
                 {
-                    //Debug.Log("出循环");
+                    Debug.Log("出循环病人回复");
                     break;
                 }
                 yield return new WaitForFixedUpdate();

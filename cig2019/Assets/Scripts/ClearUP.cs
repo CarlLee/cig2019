@@ -45,8 +45,8 @@ public class ClearUP : MonoBehaviour
                 medicineIndex++;
                 if (ClinicManager.instance.MedicinesCost[j] > 0)
                 {
-                    SoldMedicine[i].text = "X " + ClinicManager.instance.MedicinesCost[j].ToString() + " = " + (int.Parse(Medicine.Instance.Data[j][4]) * ClinicManager.instance.MedicinesCost[j]).ToString();
-                    SoldMedicine[i].transform.parent.GetChild(0).GetComponent<Image>().sprite = Resources.Load(Medicine.Instance.Data[j][3]) as Sprite;
+                    SoldMedicine[i].text = "X " + ClinicManager.instance.MedicinesCost[j].ToString() + " = " + (int.Parse(Medicine.Instance.Data[j][9]) * ClinicManager.instance.MedicinesCost[j]).ToString();
+                    SoldMedicine[i].transform.parent.GetChild(0).GetComponent<Image>().sprite = Resources.Load(Medicine.Instance.Data[j][8]) as Sprite;
                     showMedicine++;
                     break;   
                 }
@@ -56,7 +56,7 @@ public class ClearUP : MonoBehaviour
         int mediSold = 0;// TODO 计算各药物收入
         for(int i = 0; i<ClinicManager.instance.MedicinesCost.Length; i++)
         {
-            mediSold += ClinicManager.instance.MedicinesCost[i] * int.Parse(Medicine.Instance.Data[i][4]);
+            mediSold += ClinicManager.instance.MedicinesCost[i] * int.Parse(Medicine.Instance.Data[i][9]);
         }
 
         int all = ClinicManager.instance.MoneyHave - ClinicManager.instance.Rent + mediSold;
