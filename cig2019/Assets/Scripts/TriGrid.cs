@@ -80,6 +80,7 @@ public class TriGrid : MonoBehaviour
                 TriBlock block = blocks[index];
                 int blockOffsetX = offsetX - x * 4;
                 int blockOffsetY = offsetY - y * 4;
+                Debug.Log("block: \n" + block + "toFit: \n" + toFit.Shift(blockOffsetX, blockOffsetY) + blockOffsetX + "," + blockOffsetY);
                 if(!block.CanFit(toFit.Shift(blockOffsetX, blockOffsetY)))
                 {
                     return false;
@@ -97,5 +98,20 @@ public class TriGrid : MonoBehaviour
         bool bottom = offsetY <= -4;
 
         return left || right || top || right;
+    }
+
+    public void Attach(int offsetX, int offsetY, TriBlock triBlock)
+    {
+        for (int y = 0; y < gridSize.y; y++)
+        {
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                int index = y * gridSize.x + x;
+                TriBlock block = blocks[index];
+                int blockOffsetX = offsetX - x * 4;
+                int blockOffsetY = offsetY - y * 4;
+                blocks[index].mask = block.AddBlock(blockOffsetX, blockOffsetY, triBlock).mask;
+            }
+        }
     }
 }

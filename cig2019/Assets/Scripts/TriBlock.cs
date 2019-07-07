@@ -43,11 +43,11 @@ public struct TriBlock
         // Y offset
         if (down)
         {
-            result.mask = result.mask << (offsetY * 8);
+            result.mask = result.mask >> (offsetY * 8);
         }
         else
         {
-            result.mask = result.mask >> (offsetY * 8);
+            result.mask = result.mask << (offsetY * 8);
         }
 
         // X offset
@@ -57,17 +57,17 @@ public struct TriBlock
         uint row3 = (result.mask >> 24) & 255;
         if (left)
         {
-            row0 = (row0 << offsetX) & 255;
-            row1 = (row1 << offsetX) & 255;
-            row2 = (row2 << offsetX) & 255;
-            row3 = (row3 << offsetX) & 255;
-        }
-        else
-        {
             row0 = row0 >> offsetX;
             row1 = row1 >> offsetX;
             row2 = row2 >> offsetX;
             row3 = row3 >> offsetX;
+        }
+        else
+        {
+            row0 = (row0 << offsetX) & 255;
+            row1 = (row1 << offsetX) & 255;
+            row2 = (row2 << offsetX) & 255;
+            row3 = (row3 << offsetX) & 255;
         }
 
         result.mask = row0 | (row1 << 8) | (row2 << 16) | (row3 << 24);
@@ -83,14 +83,21 @@ public struct TriBlock
     public override string ToString()
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append(System.Convert.ToString(this.mask >> 24 & 255, 2).PadLeft(8, '0'));
+        sb.Append(Reverse(System.Convert.ToString(this.mask >> 24 & 255, 2).PadLeft(8, '0')));
         sb.Append("\n");
-        sb.Append(System.Convert.ToString(this.mask >> 16 & 255, 2).PadLeft(8, '0'));
+        sb.Append(Reverse(System.Convert.ToString(this.mask >> 16 & 255, 2).PadLeft(8, '0')));
         sb.Append("\n");
-        sb.Append(System.Convert.ToString(this.mask >> 8 & 255, 2).PadLeft(8, '0'));
+        sb.Append(Reverse(System.Convert.ToString(this.mask >> 8 & 255, 2).PadLeft(8, '0')));
         sb.Append("\n");
-        sb.Append(System.Convert.ToString(this.mask & 255, 2).PadLeft(8, '0'));
+        sb.Append(Reverse(System.Convert.ToString(this.mask & 255, 2).PadLeft(8, '0')));
         sb.Append("\n");
         return sb.ToString();
+    }
+
+    public static string Reverse(string s)
+    {
+        char[] charArray = s.ToCharArray();
+        System.Array.Reverse(charArray);
+        return new string(charArray);
     }
 }
