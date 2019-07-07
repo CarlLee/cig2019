@@ -43,6 +43,10 @@ public class PuzzlePiece : MonoBehaviour
             if (Input.GetKeyDown("left"))
             {
                 currentVariation--;
+                if(currentVariation < 0)
+                {
+                    currentVariation += variations.Length;
+                }
             }
             if (Input.GetKeyDown("right"))
             {

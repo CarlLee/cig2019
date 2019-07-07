@@ -7,6 +7,7 @@ public class TriGrid : MonoBehaviour
     public GameObject cellPrefab;
     public float cellSize = 2.56f;
     public Vector2Int gridSize;
+    public bool invert;
 
     [SerializeField]
     public TriBlock[] blocks;
@@ -33,7 +34,8 @@ public class TriGrid : MonoBehaviour
                 {
                     int ix = i % 4;
                     int iy = i / 4;
-                    uint cellMask = block.mask >> (i * 2) & 3;
+                    uint mask = invert ? ~block.mask : block.mask;
+                    uint cellMask = mask >> (i * 2) & 3;
                     GameObject cell = Instantiate<GameObject>(cellPrefab);
                     cell.name = "cell" + i;
                     cell.transform.SetParent(blockObj.transform, false);
@@ -61,7 +63,8 @@ public class TriGrid : MonoBehaviour
                 {
                     int ix = i % 4;
                     int iy = i / 4;
-                    uint cellMask = block.mask >> (i * 2) & 3;
+                    uint mask = invert ? ~block.mask : block.mask;
+                    uint cellMask = mask >> (i * 2) & 3;
                     var triCell = triCells[index, i];
                     triCell.UpdatePresentation(cellMask);
                     triCells[index, i] = triCell;
@@ -80,6 +83,7 @@ public class TriGrid : MonoBehaviour
                 TriBlock block = blocks[index];
                 int blockOffsetX = offsetX - x * 4;
                 int blockOffsetY = offsetY - y * 4;
+                Debug.Log(block + "-------\n" + toFit.Shift(blockOffsetX, blockOffsetY));
                 if(!block.CanFit(toFit.Shift(blockOffsetX, blockOffsetY)))
                 {
                     return false;
