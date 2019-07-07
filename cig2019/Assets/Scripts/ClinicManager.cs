@@ -8,7 +8,7 @@ public class ClinicManager : MonoBehaviour
     public static ClinicManager instance;
 
     public int MoneyHave = 0;
-    public int Day = 0;
+    public int Day = -1;
     public int[] Medicines = new int[100];
     public int[] MedicinesCost = new int[100];
     public int Rent;
@@ -19,6 +19,9 @@ public class ClinicManager : MonoBehaviour
     public GameObject NextDayButtom;
     public GameObject MoneyNRentUI;
 
+    public List<Sprite> Sprites;
+    public SpriteRenderer PatientSpr;
+
     //public Text MoneyNRentText;
     public Text MoneyT;
     public Text RentT;
@@ -28,13 +31,9 @@ public class ClinicManager : MonoBehaviour
     public void Initiate()
     {
         ReadData("GameSetting.xlsx");
-        RefleshRent(int.Parse(Data[Day][1]));
-        RefleshDay(Day);
-        RefleshMoney(MoneyHave);
         MaxDay = Data.Count;
         Debug.Log("MaxDay: " + MaxDay);
-        DialogueSys.SetActive(true);
-        DialogueManager.instance.StartDialogue((Day+1).ToString() + ".xlsx");
+        NextDay();
     }
     // 传入Xlsx文件夹下的文件名，读取游戏配置数据
     public void ReadData(string fileName)
@@ -61,14 +60,19 @@ public class ClinicManager : MonoBehaviour
         }
         // 刷新每日数据
         RefleshDay(Day + 1);
-
+        RefleshMoney(MoneyHave);
         DialogueSys.SetActive(true);
         DialogueManager.instance.StartDialogue((Day + 1).ToString() + ".xlsx");
-
+        LoadPatient(Day);
         NextDayButtom.SetActive(false);
         ClearUP.gameObject.SetActive(false);
-        MoneyNRentUI.SetActive(true);
+        //MoneyNRentUI.SetActive(true);
         RefleshRent(int.Parse(Data[Day][1]));
+    }
+
+    private void LoadPatient(int day)
+    {
+        PatientSpr.sprite = Sprites[day];
     }
 
     public void DayEnd()
@@ -76,7 +80,7 @@ public class ClinicManager : MonoBehaviour
         DialogueSys.SetActive(false);
         ClearUP.gameObject.SetActive(true);
         //NextDayButtom.SetActive(true);
-        MoneyNRentUI.SetActive(false);
+        //MoneyNRentUI.SetActive(false);
         RefleshRent(int.Parse(Data[Day][1]));
     }
 
