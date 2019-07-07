@@ -28,6 +28,7 @@ public class DragDropManager : MonoBehaviour
                     go.transform.position = puzzlePiece.transform.position;
                     puzzlePiece = go.GetComponent<PuzzlePiece>();
                     puzzlePiece.canMove = true;
+                    puzzlePiece.selected = true;
                 }
                 offset = puzzlePiece.transform.position - mousePos;
                 originalPos = puzzlePiece.transform.position;
