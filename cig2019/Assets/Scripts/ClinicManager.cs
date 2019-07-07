@@ -19,7 +19,9 @@ public class ClinicManager : MonoBehaviour
     public GameObject NextDayButtom;
     public GameObject MoneyNRentUI;
 
-    public Text MoneyNRentText;
+    //public Text MoneyNRentText;
+    public Text MoneyT;
+    public Text RentT;
     public Text DayText;
     private int MaxDay;
 
@@ -28,6 +30,7 @@ public class ClinicManager : MonoBehaviour
         ReadData("GameSetting.xlsx");
         RefleshRent(int.Parse(Data[Day][1]));
         RefleshDay(Day);
+        RefleshMoney(MoneyHave);
         MaxDay = Data.Count;
         Debug.Log("MaxDay: " + MaxDay);
         DialogueSys.SetActive(true);
@@ -86,13 +89,13 @@ public class ClinicManager : MonoBehaviour
     public void RefleshMoney(int money)
     {
         MoneyHave = money;
-        MoneyNRentText.text = "现金： " + MoneyHave.ToString() + "\n" + "今日房租： " + Rent.ToString();
+        MoneyT.text = MoneyHave.ToString();
     }
 
     public void RefleshRent(int rent)
     {
         Rent = rent;
-        MoneyNRentText.text = "现金： " + MoneyHave.ToString() + "\n" + "今日房租： " + Rent.ToString();
+        RentT.text = Rent.ToString();
     }
 
     public void GameOver()
