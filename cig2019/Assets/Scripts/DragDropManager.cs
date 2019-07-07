@@ -65,6 +65,7 @@ public class DragDropManager : MonoBehaviour
                     if (canFit && !isOutOfBound)
                     {
                         puzzleBoard.Attach(gridOffset.x, gridOffset.y, puzzlePiece.shape);
+                        ClinicManager.instance.MedicinesCost[puzzlePiece.id] += 1;
                     }
                 }
                 Destroy(puzzlePiece.gameObject);

@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
     //public GameObject Gun;
     public int Now = 0;
     public float WaitTime = 0.2f;
+    public PuzzleBoard PuzzleBoard;
 
     private void Awake()
     {
@@ -194,17 +195,14 @@ public class DialogueManager : MonoBehaviour
     {
         switch (act)
         {
-            case "aaa":
-                Debug.Log("做了aaa");
-                break;
-            case "bbb":
-                Debug.Log("做了bbb");
-                break;
             case "结束":
                 EndADay();
                 return;
+            case "空":
+                break;
             default:
                 Debug.Log(act+"   在这里调用变形方法");
+                PuzzleBoard.ChangeBoard(int.Parse(act));
                 break;
         }
         Now += 1;

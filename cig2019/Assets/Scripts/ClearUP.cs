@@ -54,7 +54,7 @@ public class ClearUP : MonoBehaviour
         }
 
         int mediSold = 0;// TODO 计算各药物收入
-        for(int i = 0; i<ClinicManager.instance.MedicinesCost.Length; i++)
+        for(int i = 0; i<ClinicManager.instance.MedicinesCost.Length && i< Medicine.Instance.Data.Count; i++)
         {
             mediSold += ClinicManager.instance.MedicinesCost[i] * int.Parse(Medicine.Instance.Data[i][9]);
         }

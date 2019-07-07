@@ -21,6 +21,7 @@ public class ClinicManager : MonoBehaviour
 
     public List<Sprite> Sprites;
     public SpriteRenderer PatientSpr;
+    public PuzzleBoard puzzleBoard;
 
     //public Text MoneyNRentText;
     public Text MoneyT;
@@ -61,6 +62,7 @@ public class ClinicManager : MonoBehaviour
         // 刷新每日数据
         RefleshDay(Day + 1);
         RefleshMoney(MoneyHave);
+        puzzleBoard.LoadPuzzle(Day * 4);
         DialogueSys.SetActive(true);
         DialogueManager.instance.StartDialogue((Day + 1).ToString() + ".xlsx");
         LoadPatient(Day);

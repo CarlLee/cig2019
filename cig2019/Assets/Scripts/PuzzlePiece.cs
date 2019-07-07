@@ -53,7 +53,6 @@ public class PuzzlePiece : MonoBehaviour
                 currentVariation++;
             }
             currentVariation %= variations.Length;
-            Debug.Log("CurrentVariation: " + currentVariation);
             shape.mask = variations[currentVariation];
             triGrid.blocks[0].mask = shape.mask;
         }

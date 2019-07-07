@@ -25,7 +25,7 @@ public class PuzzleBoard : MonoBehaviour
         this.gameObject.layer = LayerMask.NameToLayer("PuzzleBoard");
         var collider = this.gameObject.AddComponent<BoxCollider2D>();
         var colliderSize = CoordsUtils.OrthoToSlope(new Vector2(blockSize * gridSize.x, blockSize * gridSize.y));
-        collider.size = colliderSize;
+        collider.size = colliderSize * 2;
         collider.offset = colliderSize / 2f;
         LoadPuzzle(puzzleId);
     }
@@ -33,13 +33,9 @@ public class PuzzleBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(puzzleId != prevPuzzleId)
-        {
-            LoadPuzzle(puzzleId);
-        }
     }
 
-    void LoadPuzzle(int puzzleId)
+    public void LoadPuzzle(int puzzleId)
     {
         var data = Medicine.Instance.Shape[puzzleId];
         triGrid.gridSize = new Vector2Int(2, 2);
