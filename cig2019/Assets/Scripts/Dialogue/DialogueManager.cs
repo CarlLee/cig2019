@@ -19,6 +19,7 @@ public class DialogueManager : MonoBehaviour
     public int Now = 0;
     public float WaitTime = 0.2f;
     public PuzzleBoard PuzzleBoard;
+    private int temp = 0;
 
     private void Awake()
     {
@@ -198,6 +199,10 @@ public class DialogueManager : MonoBehaviour
             case "结束":
                 EndADay();
                 return;
+            case "加":
+                break;
+            case "减":
+                break;
             case "空":
                 break;
             default:

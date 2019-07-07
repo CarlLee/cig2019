@@ -7,6 +7,7 @@ public class Medicine : MonoBehaviour
     public static Medicine Instance;
     public List<List<string>> Data;
     public List<List<string>> Shape;
+    public List<Sprite> Medi;
 
     private void Awake()
     {

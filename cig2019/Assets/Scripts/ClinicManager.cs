@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ClinicManager : MonoBehaviour
@@ -107,6 +108,6 @@ public class ClinicManager : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("1111");
-        Application.Quit();
+        SceneManager.LoadScene("Over");
     }
 }

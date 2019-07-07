@@ -13,6 +13,7 @@ public class ClearUP : MonoBehaviour
     public List<Text> SoldMedicine;
     public Text Money;
     public Text MoneyNumber;
+    public Medicine medicine;
 
     public float WaitTime = 0;
 
@@ -46,7 +47,7 @@ public class ClearUP : MonoBehaviour
                 if (ClinicManager.instance.MedicinesCost[j] > 0)
                 {
                     SoldMedicine[i].text = "X " + ClinicManager.instance.MedicinesCost[j].ToString() + " = " + (int.Parse(Medicine.Instance.Data[j][9]) * ClinicManager.instance.MedicinesCost[j]).ToString();
-                    SoldMedicine[i].transform.parent.GetChild(0).GetComponent<Image>().sprite = Resources.Load(Medicine.Instance.Data[j][8]) as Sprite;
+                    SoldMedicine[i].transform.parent.GetChild(0).GetComponent<Image>().sprite = medicine.Medi[int.Parse(Medicine.Instance.Data[j][8])];
                     showMedicine++;
                     break;   
                 }
@@ -96,6 +97,8 @@ public class ClearUP : MonoBehaviour
         yield return new WaitForSeconds(WaitTime);
 
         ClinicManager.instance.NextDayButtom.SetActive(true);
+        if(ClinicManager.instance.MoneyHave<0)
+            ClinicManager.instance.GameOver();
         yield return 0;
     }
 }
