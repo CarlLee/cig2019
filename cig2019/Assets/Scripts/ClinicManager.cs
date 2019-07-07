@@ -9,8 +9,8 @@ public class ClinicManager : MonoBehaviour
 
     public int MoneyHave = 0;
     public int Day = 0;
-    public List<int> Medicines;
-    public List<int> MedicinesCost;
+    public int[] Medicines = new int[100];
+    public int[] MedicinesCost = new int[100];
     public int Rent;
     public List<List<string>> Data;
     public ClearUP ClearUP;
@@ -74,7 +74,6 @@ public class ClinicManager : MonoBehaviour
         ClearUP.gameObject.SetActive(true);
         //NextDayButtom.SetActive(true);
         MoneyNRentUI.SetActive(false);
-        RefleshMoney(-Rent);
         RefleshRent(int.Parse(Data[Day][1]));
     }
 
@@ -86,7 +85,7 @@ public class ClinicManager : MonoBehaviour
 
     public void RefleshMoney(int money)
     {
-        MoneyHave += money;
+        MoneyHave = money;
         MoneyNRentText.text = "现金： " + MoneyHave.ToString() + "\n" + "今日房租： " + Rent.ToString();
     }
 
