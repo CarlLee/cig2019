@@ -8,6 +8,8 @@ public class PuzzlePiece : MonoBehaviour
     public float cellSize = 2.56f;
     public TriBlock shape;
     public PuzzleBoard puzzleBoard;
+    public int id;
+    public bool canMove = false;
     // Start is called before the first frame update
     void Start()
     {
