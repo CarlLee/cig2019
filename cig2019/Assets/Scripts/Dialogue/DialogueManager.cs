@@ -97,6 +97,9 @@ public class DialogueManager : MonoBehaviour
     // 当点中1选项 
     public void OnSelect1Clicked()
     {
+        // 关闭对话框
+        Select1.gameObject.SetActive(false);
+        Select2.gameObject.SetActive(false);
         if (Data[Now][3] != "") // 进入对话循环
         {
             Doctor.gameObject.SetActive(true);
@@ -106,13 +109,12 @@ public class DialogueManager : MonoBehaviour
         {
             Reaction(Data[Now][5]);
         }
-        // 关闭对话框
-        Select1.gameObject.SetActive(false);
-        Select2.gameObject.SetActive(false);
     }
     // 当点中2选项
     public void OnSelect2Clicked()
     {
+        Select1.gameObject.SetActive(false);
+        Select2.gameObject.SetActive(false);
         if (Data[Now][7] != "")
         {
             Doctor.gameObject.SetActive(true);
@@ -122,9 +124,6 @@ public class DialogueManager : MonoBehaviour
         {
             Reaction(Data[Now][9]);
         }
-
-        Select1.gameObject.SetActive(false);
-        Select2.gameObject.SetActive(false);
     }
     // 医生反应循环
     private IEnumerator SelectLoop(int selectNumber)
