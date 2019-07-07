@@ -55,6 +55,7 @@ public class PuzzlePiece : MonoBehaviour
             currentVariation %= variations.Length;
             shape.mask = variations[currentVariation];
             triGrid.blocks[0].mask = shape.mask;
+            Debug.Log(shape);
         }
     }
 }
