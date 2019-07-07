@@ -2228,6 +2228,8 @@ MonoBehaviour:
   DialogueSys: {fileID: 746073696}
   NextDayButtom: {fileID: 1796926110}
   MoneyNRentUI: {fileID: 1305222542}
+  Sprites: []
+  PatientSpr: {fileID: 0}
   MoneyT: {fileID: 1242755340}
   RentT: {fileID: 962032681}
   DayText: {fileID: 982382923}
