@@ -71,6 +71,7 @@ public class ClinicManager : MonoBehaviour
         ClearUP.gameObject.SetActive(false);
         //MoneyNRentUI.SetActive(true);
         RefleshRent(int.Parse(Data[Day][1]));
+        MedicinesCost = new int[20];
     }
 
     private void LoadPatient(int day)
