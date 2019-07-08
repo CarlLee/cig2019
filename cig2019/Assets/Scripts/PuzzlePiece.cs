@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PuzzlePiece : MonoBehaviour
 {
+    public GameObject selfPrefab;
     public GameObject cellPrefab;
     public float cellSize = 2.56f;
     public TriBlock shape;
@@ -13,7 +14,7 @@ public class PuzzlePiece : MonoBehaviour
     public uint[] variations = new uint[6];
     public bool selected = false;
     int currentVariation = 0;
-    TriGrid triGrid;
+    public TriGrid triGrid;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,9 +54,13 @@ public class PuzzlePiece : MonoBehaviour
                 currentVariation++;
             }
             currentVariation %= variations.Length;
-            shape.mask = variations[currentVariation];
-            triGrid.blocks[0].mask = shape.mask;
-            Debug.Log(shape);
+            ChangeShape(variations[currentVariation]);
         }
+    }
+
+    public void ChangeShape(uint mask)
+    {
+        shape.mask = mask;
+        triGrid.blocks[0].mask = shape.mask;
     }
 }

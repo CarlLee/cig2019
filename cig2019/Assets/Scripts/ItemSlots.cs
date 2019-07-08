@@ -48,6 +48,7 @@ public class ItemSlots : MonoBehaviour
                 System.Convert.ToUInt32(data[6], 2),
                 System.Convert.ToUInt32(data[7], 2)
             };
+            puzzlePiece.selfPrefab = ItemTemplate;
             puzzlePiece.shape.mask = System.Convert.ToUInt32(data[2], 2);
             item.transform.SetParent(transform, false);
             item.transform.localPosition = new Vector2((puzzlePiece.cellSize * 5) * i, 0);

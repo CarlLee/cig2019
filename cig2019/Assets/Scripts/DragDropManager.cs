@@ -24,9 +24,14 @@ public class DragDropManager : MonoBehaviour
             {
                 if(!puzzlePiece.canMove)
                 {
-                    var go = Instantiate(puzzlePiece.gameObject);
+                    var go = Instantiate(puzzlePiece.selfPrefab);
+                    var prevPuzzle = puzzlePiece;
+                    var mask = puzzlePiece.shape.mask;
                     go.transform.position = puzzlePiece.transform.position;
                     puzzlePiece = go.GetComponent<PuzzlePiece>();
+                    puzzlePiece.shape.mask = mask;
+                    puzzlePiece.variations = prevPuzzle.variations;
+                    puzzlePiece.selfPrefab = prevPuzzle.selfPrefab;
                     puzzlePiece.canMove = true;
                     puzzlePiece.selected = true;
                 }
